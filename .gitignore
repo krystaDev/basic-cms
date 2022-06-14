@@ -4,6 +4,9 @@
 /dist
 /tmp
 /out-tsc
+/dev-env-backend/tmp/data
+/dev-env-backend/tmp/pgadmin
+
 
 # dependencies
 node_modules

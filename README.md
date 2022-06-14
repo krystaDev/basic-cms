@@ -55,6 +55,12 @@ Run `ng g @nrwl/angular:lib my-lib` to generate a library.
 
 Libraries are shareable across libraries and applications. They can be imported from `@basic-cms/mylib`.
 
+## Generate new module for API
+
+```angular2html
+ nx g @nrwl/nest:module app/features/{name}
+```
+
 ## Development server
 
 Run `ng serve my-app` for a dev server. Navigate to http://localhost:4200/. The app will automatically reload if you change any of the source files.
