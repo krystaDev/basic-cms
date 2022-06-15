@@ -1,15 +1,20 @@
 import { Controller, Get } from '@nestjs/common';
 
-import { Message } from '@basic-cms/api-interfaces';
-
-import { AppService } from './app.service';
+import {InjectRepository} from "@nestjs/typeorm";
+import {ApplicationEntity} from "./features/application/application.entity";
+import {Repository} from "typeorm";
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(@InjectRepository(ApplicationEntity)
+              private applicationRepository: Repository<ApplicationEntity>) {}
 
-  @Get('hello')
-  getData(): Message {
-    return this.appService.getData();
+  @Get('init')
+  init() {
+    const entity = new ApplicationEntity();
+    entity.name = 'test2';
+    entity.translationsCatalog = null;
+    const record = this.applicationRepository.create(entity)
+    return this.applicationRepository.save(record);
   }
 }
