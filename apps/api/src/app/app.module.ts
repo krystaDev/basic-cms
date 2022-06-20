@@ -8,10 +8,6 @@ import { TranslationModule } from './features/translation/translation.module';
 import { TranslationsCatalogModule } from './features/translations-catalog/translations-catalog.module';
 import { ApplicationModule } from './features/application/application.module';
 import * as Joi from '@hapi/joi';
-import {TypeOrmModule} from "@nestjs/typeorm";
-import {ApplicationEntity} from "./features/application/application.entity";
-import {TranslationsCatalogEntity} from "./features/translations-catalog/translations-catalog.entity";
-import {TranslationEntity} from "./features/translation/translation.entity";
 
 @Module({
   imports: [
@@ -29,8 +25,7 @@ import {TranslationEntity} from "./features/translation/translation.entity";
     TranslationModule,
     TranslationsCatalogModule,
     ApplicationModule,
-    ConfigModule,
-    TypeOrmModule.forFeature([TranslationEntity, TranslationsCatalogEntity,ApplicationEntity])
+    ConfigModule
   ],
   controllers: [AppController],
   providers: [AppService],
