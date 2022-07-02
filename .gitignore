@@ -6,7 +6,6 @@
 /out-tsc
 /dev-env-backend/tmp/data
 /dev-env-backend/tmp/pgadmin
-/.env
 
 # dependencies
 node_modules
@@ -19,6 +18,7 @@ node_modules
 *.launch
 .settings/
 *.sublime-workspace
+.env
 
 # IDE - VSCode
 .vscode/*
