@@ -6,7 +6,7 @@
 /out-tsc
 /dev-env-backend/tmp/data
 /dev-env-backend/tmp/pgadmin
-
+/.env
 
 # dependencies
 node_modules

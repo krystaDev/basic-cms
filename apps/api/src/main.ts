@@ -17,7 +17,6 @@ async function bootstrap() {
     .setTitle('Basic CMS')
     .setDescription('System to delivery content to frontend apps')
     .setVersion('1.0')
-    .addTag('default')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);

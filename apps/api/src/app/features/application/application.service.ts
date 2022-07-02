@@ -4,18 +4,25 @@ import {ApplicationEntity} from "./application.entity";
 import {Repository} from "typeorm";
 import {CreateApplicationDto} from "./dto/create-application.dto";
 import {EditApplicationDto} from "./dto/edit-application.dto";
+import {TranslationsCatalogEntity} from "../translations-catalog/translations-catalog.entity";
 
 @Injectable()
 export class ApplicationService {
   constructor(@InjectRepository(ApplicationEntity)
-              private applicationRepository: Repository<ApplicationEntity>) {
+              private applicationRepository: Repository<ApplicationEntity>,
+              @InjectRepository(TranslationsCatalogEntity)
+              private translationCatalogRepository: Repository<TranslationsCatalogEntity>) {
   }
 
-  createApplication(dto: CreateApplicationDto) {
-    const entity = new ApplicationEntity();
-    entity.name = dto.name;
-    entity.translationsCatalog = null;
-    return this.applicationRepository.save(this.applicationRepository.create(entity));
+  async createApplication(dto: CreateApplicationDto) {
+    const applicationEntity = new ApplicationEntity();
+    const translationCatalogEntity = new TranslationsCatalogEntity();
+    translationCatalogEntity.name = dto.name;
+    translationCatalogEntity.translations = [];
+    const translationRecord = await this.translationCatalogRepository.save(translationCatalogEntity);
+    applicationEntity.name = dto.name;
+    applicationEntity.translationsCatalog = translationRecord
+    return this.applicationRepository.save(this.applicationRepository.create(applicationEntity));
   }
 
   async updateApplication(id: string, dto: EditApplicationDto) {
@@ -32,4 +39,7 @@ export class ApplicationService {
     });
   }
 
+  getAllApplications() {
+    return this.applicationRepository.find();
+  }
 }

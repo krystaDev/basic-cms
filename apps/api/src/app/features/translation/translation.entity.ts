@@ -6,7 +6,7 @@ export class TranslationEntity {
   @PrimaryGeneratedColumn("uuid")
   uuid: string;
 
-  @Column()
+  @Column({nullable: true})
   lang: string;
 
   @Column()
