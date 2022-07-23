@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import {ConfigModule, ConfigService} from '@nestjs/config';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -8,6 +8,9 @@ import { TranslationModule } from './features/translation/translation.module';
 import { TranslationsCatalogModule } from './features/translations-catalog/translations-catalog.module';
 import { ApplicationModule } from './features/application/application.module';
 import * as Joi from '@hapi/joi';
+import {KeycloakConnectModule} from "nest-keycloak-connect";
+import {KeycloakConfigService} from "./features/auth/keycloak-config.service";
+import { AuthModule } from './features/auth/auth.module';
 
 @Module({
   imports: [
@@ -19,15 +22,22 @@ import * as Joi from '@hapi/joi';
         POSTGRES_PASSWORD: Joi.string().required(),
         POSTGRES_DB: Joi.string().required(),
         PORT: Joi.number(),
+        KEYCLOAK_SERVER: Joi.string().required(),
+        KEYCLOAK_REALM: Joi.string().required(),
+        KEYCLOAK_CLIENT_ID: Joi.string().required(),
+        KEYCLOAK_SECRET: Joi.string().required(),
       }),
     }),
     DatabaseModule,
     TranslationModule,
     TranslationsCatalogModule,
     ApplicationModule,
-    ConfigModule
+    ConfigModule,
+    AuthModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService,
+
+],
 })
 export class AppModule {}
