@@ -1,8 +1,9 @@
-import {Body, Controller, Get, Param, Post} from '@nestjs/common';
+import {Body, Controller, Get, Param, Post, UseGuards} from '@nestjs/common';
 import {ApplicationService} from "./application.service";
 import {CreateApplicationDto} from "./dto/create-application.dto";
 import {EditApplicationDto} from "./dto/edit-application.dto";
-import {ApiTags} from "@nestjs/swagger";
+import {ApiBearerAuth, ApiTags} from "@nestjs/swagger";
+import {AuthGuard, Public, Roles} from 'nest-keycloak-connect';
 
 @Controller('application')
 @ApiTags('Application')
@@ -11,6 +12,8 @@ export class ApplicationController {
   }
 
   @Get('/')
+  @ApiBearerAuth('JWT')
+  @Roles({ roles: ['user'] })
   getAll() {
     return this.applicationService.getAllApplications();
   }

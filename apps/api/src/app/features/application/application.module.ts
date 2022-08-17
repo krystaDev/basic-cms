@@ -9,7 +9,7 @@ import { ApplicationService } from './application.service';
 @Module({
   controllers: [ApplicationController],
   providers: [
-    ApplicationService
+    ApplicationService,
   ],
   imports: [
     TypeOrmModule.forFeature([TranslationEntity, TranslationsCatalogEntity,ApplicationEntity])

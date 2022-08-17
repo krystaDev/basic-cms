@@ -8,9 +8,10 @@ import { TranslationModule } from './features/translation/translation.module';
 import { TranslationsCatalogModule } from './features/translations-catalog/translations-catalog.module';
 import { ApplicationModule } from './features/application/application.module';
 import * as Joi from '@hapi/joi';
-import {KeycloakConnectModule} from "nest-keycloak-connect";
-import {KeycloakConfigService} from "./features/auth/keycloak-config.service";
-import { AuthModule } from './features/auth/auth.module';
+import { KeycloakConfigModule } from './features/keycloak-config/keycloak-config.module';
+import {AuthGuard, KeycloakConnectModule, ResourceGuard, RoleGuard} from "nest-keycloak-connect";
+import {KeycloakConfigService} from "./features/keycloak-config/keycloak-config.service";
+import {APP_GUARD} from "@nestjs/core";
 
 @Module({
   imports: [
@@ -28,16 +29,31 @@ import { AuthModule } from './features/auth/auth.module';
         KEYCLOAK_SECRET: Joi.string().required(),
       }),
     }),
+    ConfigModule,
+    KeycloakConnectModule.registerAsync({
+      useExisting: KeycloakConfigService,
+      imports: [ConfigModule, KeycloakConfigModule],
+      inject: [ConfigService],
+    }),
     DatabaseModule,
     TranslationModule,
     TranslationsCatalogModule,
     ApplicationModule,
-    ConfigModule,
-    AuthModule,
   ],
   controllers: [AppController],
-  providers: [AppService,
-
-],
+  providers: [AppService, KeycloakConfigService,
+    {
+      provide: APP_GUARD,
+      useClass: AuthGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: ResourceGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: RoleGuard,
+    }],
+  exports: [KeycloakConfigService],
 })
 export class AppModule {}

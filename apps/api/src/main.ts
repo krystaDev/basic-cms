@@ -17,6 +17,10 @@ async function bootstrap() {
     .setTitle('Basic CMS')
     .setDescription('System to delivery content to frontend apps')
     .setVersion('1.0')
+    .addBearerAuth(
+      { type: 'http', scheme: 'bearer', bearerFormat: 'JWT' },
+      'JWT',
+    )
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
